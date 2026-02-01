@@ -2,22 +2,15 @@ import { useEffect } from "react";
 import api from "./api";
 import { useLocation } from "react-router-dom";
 
-/**
- * SEO component: Fetches SEO data from backend and injects meta tags dynamically.
- * Usage: Place <SEO /> at the top of each page component.
- */
 export default function SEO() {
   const location = useLocation();
-  // Normalize host so it matches how values are stored in DB
   const rawHost = window.location.hostname || "";
   const normalizedHost = rawHost.replace(/^www\./i, "").toLowerCase();
-  // Allow overriding the site for local/dev via env (e.g. VITE_SEO_SITE=A7satta.vip)
-  const site = (import.meta.env.VITE_SEO_SITE || normalizedHost || "A7satta.vip").toLowerCase();
+  const site = (import.meta.env.VITE_SEO_SITE || normalizedHost || "a7satta.co").toLowerCase();
 
   useEffect(() => {
     const fetchSEO = async () => {
       try {
-        // Use the full pathname for page (so /chart-2026/agra-satta-king-result matches backend)
         const page = location.pathname;
         const { data } = await api.get(
           `/seo/get?page=${encodeURIComponent(page)}&site=${encodeURIComponent(site)}`
